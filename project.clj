@@ -5,5 +5,5 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [de.otto/tesla-microservice "0.1.6"]]
-  :main de.otto.tesla.example.example-system
+  :main wife.system
 )
