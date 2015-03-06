@@ -11,14 +11,16 @@
 (defn usage-page [self]
   (let [x 1]
     (hiccup/html [:body [:h1 "SAY SOMETHING"]
-                  [:div (str "call /say/no to get Yes")]
+                  [:div "call "
+                        [:a {:href "/say/no!"} "/say/no!"]
+                        " to get 'Yes!'"]
                   [:div (str x " calculations so far")]])))
 
 (defn result-page [self input]
   (let [result (w/say input)]
     (hiccup/html [:body [:h1 (str "Answer to '" input "' is:")]
-                  [:div (str result)]])))
-
+                  [:div (str result)]
+                  [:a {:href "/say"} "back"]])))
 
 (defrecord HomePage []
   c/Lifecycle
@@ -26,8 +28,8 @@
     (routes/register-routes (:routes self)
                             [(compojure/GET "/say" [_] (usage-page self))
                              (compojure/GET "/say/:input" [input] (result-page self input))])
-    ; (app-status/register-status-fun (:app-status self)
-      ; (fn [] (status/status-detail :home-page :ok "page is always fine")))
+    (app-status/register-status-fun (:app-status self)
+      (fn [] (status/status-detail :home-page :ok "page is always fine")))
     self)
   (stop [self]
     self))
